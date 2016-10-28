@@ -1,14 +1,18 @@
 # This is the feature selection about SIFT features
 # When combined with parameters, it should be modified again
 
-source("train.r")
-source("test.r")
+# Now the output of this file is several selected feature data used for main.R to tune parameters
 
+setwd("/Users/Amyummy/Documents/Rstudio/ads_pro3/")
+#source("train.r")
+#source("test.r")
+
+# the first part is just testing, which can be commented
 ###### First part : testing start code using all 5000 SIFT features
 # read data
 sift.feature=read.csv("/Users/Amyummy/Documents/Rstudio/ads_pro3/Project3_poodleKFC_train/sift_features.csv")
-dim(sift.feature)
 sift=t(sift.feature)
+dim(sift)
 
 # add lables: 0 for dog and 1 for fried chicken
 label1=append(rep(1,1000),rep(0,1000))
@@ -16,33 +20,33 @@ data=cbind(sift,label1)
 dim(data)
 
 # divide data to training part(1400 images) and testing part(600 images).
-set.seed(0)
-sam=sample(1:2000,1400)
+#set.seed(0)
+#sam=sample(1:2000,1400)
 
-train_data0=data[sam,]
-dat_train=train_data0[,1:5000]
-label_train=train_data0[,5001]
+#train_data0=data[sam,]
+#dat_train=train_data0[,1:5000]
+#label_train=train_data0[,5001]
 
-test_data0=data[-sam,]
-dat_test=test_data0[,1:5000]
-label_test=test_data0[,5001]
-dim(dat_train)
-dim(dat_test)
+#test_data0=data[-sam,]
+#dat_test=test_data0[,1:5000]
+#label_test=test_data0[,5001]
+#dim(dat_train)
+#dim(dat_test)
 
 # run train.r and test.r
-fit_train=train(dat_train,label_train)
-pred=test(fit_train, dat_test)
+#fit_train=train(dat_train,label_train)
+#pred=test(fit_train, dat_test)
 
 # use the prediction to calculte accuracy
-x=label_test-pred
-k=0
-for(i in 1:600){
-  if(x[i]==0){
-    k=k+1
-  }else{k=k}
-}
-accu=k/600
-accu
+#x=label_test-pred
+#k=0
+#for(i in 1:600){
+#  if(x[i]==0){
+#    k=k+1
+#  }else{k=k}
+#}
+#accu=k/600
+#accu
 # one time accuracy 70%
 
 
@@ -87,22 +91,25 @@ test_data1=data.m1[-sam1,]
 dat_test1=test_data1[,1:1968]
 label_test1=test_data1[,1969]
 
+# train features used for main.r function is dat_train1 and label_train1
+
+### this part is just for testing. so can be commented 
 # run train.r and test.r
-install.packages("gbm")
-library(gbm)
-fit_train1=train(dat_train1,label_train1)
-pred1=test(fit_train1, dat_test1)
+#install.packages("gbm")
+#library(gbm)
+#fit_train1=train(dat_train1,label_train1)
+#pred1=test(fit_train1, dat_test1)
 
 # use the prediction to calculte accuracy
-x1=label_test1-pred1
-k=0
-for(i in 1:600){
-  if(x1[i]==0){
-    k=k+1
-  }else{k=k}
-}
-accu1=k/600
-accu1
+#x1=label_test1-pred1
+#k=0
+#for(i in 1:600){
+#  if(x1[i]==0){
+#    k=k+1
+#  }else{k=k}
+#}
+#accu1=k/600
+#accu1
 # result 66 %. costs about 3 minutes
 
 #############################     end of method1     #############################
@@ -140,20 +147,25 @@ test_data2=data.m2[-sam2,]
 dat_test2=test_data2[,1:500]
 label_test2=test_data2[,501]
 
+# train features used for main.r function is dat_train2 and label_train2
+
+### this part is just for testing. so can be commented 
+
+
 # run train.r and test.r
-fit_train2=train(dat_train2,label_train2)
-pred2=test(fit_train2, dat_test2)
+#fit_train2=train(dat_train2,label_train2)
+#pred2=test(fit_train2, dat_test2)
 
 # use the prediction to calculte accuracy
-x2=label_test2-pred2
-k=0
-for(i in 1:600){
-  if(x2[i]==0){
-    k=k+1
-  }else{k=k}
-}
-accu2=k/600
-accu2
+#x2=label_test2-pred2
+#k=0
+#for(i in 1:600){
+#  if(x2[i]==0){
+#    k=k+1
+#  }else{k=k}
+#}
+#accu2=k/600
+#accu2
 # result 61.5%. costs about 1 minute
 
 #############################     end of method2     #############################
@@ -246,23 +258,30 @@ test_data3=data.m3[-sam3,]
 dat_test3=test_data3[,1:100]
 label_test3=test_data3[,101]
 
+# train features used for main.r function is dat_train3 and label_train3
+
+### this part is just for testing. so can be commented 
+
 # run train.r and test.r
-fit_train3=train(dat_train3,label_train3)
-pred3=test(fit_train3, dat_test3)
+#fit_train3=train(dat_train3,label_train3)
+#pred3=test(fit_train3, dat_test3)
 
 # use the prediction to calculte accuracy
-x3=label_test3-pred3
-k=0
-for(i in 1:600){
-  if(x3[i]==0){
-    k=k+1
-  }else{k=k}
-}
-accu3=k/600
-accu3
+#x3=label_test3-pred3
+#k=0
+#for(i in 1:600){
+#  if(x3[i]==0){
+#    k=k+1
+#  }else{k=k}
+#}
+#accu3=k/600
+#accu3
 # result 60%. costs about 10 seconds
 
 
 #############################     end of method3     #############################
+
+
+
 
 
