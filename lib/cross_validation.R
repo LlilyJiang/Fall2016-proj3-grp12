@@ -12,9 +12,10 @@ cv.function <- function(data, label, d, n, r, K){
   # n: Ntrees_values
   # r: Shrinkage_values
 
-  install.packages("caret")
+  set.seed(0)
   library(caret)
-  flds <- createFolds(1:dim(data)[1], K, list=T, returnTrain=F)
+  fold <- createFolds(1:dim(data)[1], K, list=T, returnTrain=F)
+  fold <- as.data.frame(fold)
   
   cv.error <- rep(NA, K)
   

@@ -16,10 +16,11 @@ sift.feature <- read.csv("sift_features.csv")
 sift <- t(sift.feature)
 
 # Import the class label
-label <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
 
 ### FEATURE SELECTION ###
-
+source("Fall2016-proj3-grp12/lib/feature_selection.r")
+data_train <- variance_cut_off (sift, 0.5e-6)
 
 ### MODEL CONSTRUCTION ###
 
@@ -32,7 +33,7 @@ source("Fall2016-proj3-grp12/lib/cross_validation.r")
 
 # Set the range for the tunning parameters
 depth_values <- seq(3, 11, 2)
-Ntrees_values <- c(200, 500, 1000, 2000, 4000)
+Ntrees_values <- c(500, 1000, 2000, 4000)
 Shrinkage_values <- c(0.01, 0.05, 0.1)
 
 result_cv <- array(dim=c(length(depth_values), length(Ntrees_values),length(Shrinkage_values)))
