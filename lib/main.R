@@ -21,6 +21,8 @@ label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
 ### FEATURE SELECTION ###
 source("Fall2016-proj3-grp12/lib/feature_selection.r")
 data_train <- variance_cut_off (sift, 0.5e-6)
+data_train <- pca(sift, 1000)
+data_train <- random_forest(sift, label_train, 100)
 
 ### MODEL CONSTRUCTION ###
 
