@@ -44,9 +44,9 @@ result_cv <- array(dim=c(length(depth_values), length(Ntrees_values),length(Shri
 # Set the number of folds for the cross validation
 K <- 5
 
-i = 2
-j = 2
-k = 2
+i = 5
+j = 5
+k = 3
 
 train_time1 <- system.time(train1 <- cv.function(data_train, label_train, depth_values[i], Ntrees_values[j], Shrinkage_values[k], 2))
 cat("Time for constructing training features 1 =", train_time1[1], "s \n")
