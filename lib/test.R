@@ -41,3 +41,10 @@ testSVM <- function(fit_train, dat_test){
 }
 
 
+testxgboost <- function(fit_train, dat_test){
+  
+  pred <- predict(fit_train, dat_test)
+  
+  return(as.numeric(pred > 0.5))
+}
+

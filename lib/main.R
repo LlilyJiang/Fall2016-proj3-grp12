@@ -35,14 +35,30 @@ source("Fall2016-proj3-grp12/lib/test.r")
 source("Fall2016-proj3-grp12/lib/cross_validation.r")
 
 # Set the range for the tunning parameters
-depth_values <- seq(3, 11, 2)
-Ntrees_values <- c(200, 500, 1000, 2000, 4000)
+depth_values <- seq(3, 10, 1)
+Ntrees_values <- c(200, 500, 1000, 1500, 2000, 4000)
 Shrinkage_values <- c(0.01, 0.05, 0.1)
 
 result_cv <- array(dim=c(length(depth_values), length(Ntrees_values),length(Shrinkage_values)))
 
 # Set the number of folds for the cross validation
 K <- 5
+
+i = 2
+j = 2
+k = 2
+
+train_time1 <- system.time(train1 <- cv.function(data_train, label_train, depth_values[i], Ntrees_values[j], Shrinkage_values[k], 2))
+cat("Time for constructing training features 1 =", train_time1[1], "s \n")
+# train1 = 0.3105
+# time = 220.216s
+
+
+train_time2 <- system.time(train2 <- cvxgboost.function(data_train, label_train, depth_values[i],Ntrees_values[j], Shrinkage_values[k], 4))
+cat("Time for constructing training features 2 =", train_time2[1], "s \n")
+train2
+# train2 = 0.4055
+# time = 0.897s
 
 for(i in 1:length(depth_values)){
   for(j in 1:length(Ntrees_values)){

@@ -78,7 +78,7 @@ train <- function(dat_train, label_train, par=NULL){
 #         if gbm was called with cv.folds>1
 
 
-trainSVM <- function(dat_train, label_train, par=NULL){
+trainSVM <- function(dat_train, label_train, par = NULL){
   
   ### Train a SVM using processed features from training images
   
@@ -104,7 +104,28 @@ trainSVM <- function(dat_train, label_train, par=NULL){
   
   fit_svm <- svm(dat_train, label_train, kernel = kernel,gamma = gamma, cost = cost, cross = 10)
   
+  return(fit = fit_svm)
+}
+
+trainxgboost <- function(dat_train, lable_train, par){
+  library(xgboost)
   
-  return(fit=fit_svm)
+  if(is.null(par)){
+    ### default parameter values
+    depth <- 6
+    Ntrees <- 1000
+    Shrinkage <- 0.01
+  } else {
+    depth <- par$depth
+    Ntrees <- par$Ntrees
+    Shrinkage <- par$Shrinkage
+  } 
+  
+  
+  fit_xgboost <- xgboost(data = dat_train, label = label_train,
+                       max.depth = depth, eta = Shrinkage, nthread = Ntrees, 
+                       nround = 2, objective = "binary:logistic")
+  
+  return(fit = fit_xgboost)
 }
 
