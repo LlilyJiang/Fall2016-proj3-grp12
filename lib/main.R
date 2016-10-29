@@ -24,6 +24,7 @@ data_train <- variance_cut_off (sift, 0.5e-6)
 data_train <- pca(sift, 1000)
 data_train <- random_forest(sift, label_train, 100)
 
+data_train <- sift
 ### MODEL CONSTRUCTION ###
 
 # Train a classification model with training images
@@ -35,7 +36,7 @@ source("Fall2016-proj3-grp12/lib/cross_validation.r")
 
 # Set the range for the tunning parameters
 depth_values <- seq(3, 11, 2)
-Ntrees_values <- c(500, 1000, 2000, 4000)
+Ntrees_values <- c(200, 500, 1000, 2000, 4000)
 Shrinkage_values <- c(0.01, 0.05, 0.1)
 
 result_cv <- array(dim=c(length(depth_values), length(Ntrees_values),length(Shrinkage_values)))
