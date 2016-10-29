@@ -76,3 +76,35 @@ train <- function(dat_train, label_train, par=NULL){
 #         dataset  to compute an out-of-sample estimate. method="cv" 
 #         extracts the optimal number of iterations using cross-validation 
 #         if gbm was called with cv.folds>1
+
+
+trainSVM <- function(dat_train, label_train, par=NULL){
+  
+  ### Train a SVM using processed features from training images
+  
+  ### Input: 
+  ###  -  processed features from images 
+  ###  -  class labels for training images
+  ### Output: training model specification
+  
+  ### load libraries
+  library(e1071)
+  
+  ### Train with gradient boosting model
+  if(is.null(par)){
+    ### default parameter values
+    gamma <- 0.1
+    cost <- 1
+    kernel <- 'radial'
+  } else {
+    gamma <- par$gamma
+    cost <- par$cost
+    kernel <- par$kernel
+  }
+  
+  fit_svm <- svm(dat_train, label_train, kernel = kernel,gamma = gamma, cost = cost, cross = 10)
+  
+  
+  return(fit=fit_svm)
+}
+
