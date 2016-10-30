@@ -78,6 +78,29 @@ Shrinkage_best <-Shrinkage_values[index_best[3]]
 par_best <- list(depth = depth_best, Ntrees = Ntrees_best, Shrinkage = Shrinkage_best)
 
 
+### svm ###
+kernel_values <- c('linear','radial')
+#cost_values <- c(0.01, 0.1, 1, 2.7, 10, 100, 150, 200, 250, 300, 350)
+#gamma_values <- c(0.0001, 0.0005, 0.0007, 0,001, 0.01, 0.09, 0.015, 0.02, 0.025, 0.03, 0.1, 1)
+cost_values <- c(0.1, 1)
+gamma_values <- c(0.0005,0.01)
+
+result_cv <- array(dim=c(length(kernel_values), length(gamma_values),length(cost_values)))
+K <- 5  # number of CV folds
+for(i in 1:length(kernel_values)){
+  for(j in 1:length(gamma_values)){
+    for(k in 1:length(cost_values)){
+      cat("i=", i, "\n")
+      cat("j=", j, "\n")
+      cat("k=", k, "\n")
+      result_cv[i,j,k] <- cvsvm.function(dat_train, label_train, kernel_values[i],gamma_values[j],cost_values[k], K)
+    }
+  }
+}
+c=cvsvm.function(dat_train, label_train, 'radial',1,0.1,K)
+
+
+
 
 ############################## not changed yet ###################################
 # Visualize CV results
