@@ -128,6 +128,45 @@ cat("Time for constructing testing features=", tm_feature_test[1], "s \n")
 cat("Time for training model=", tm_train[1], "s \n")
 cat("Time for making prediction=", tm_test[1], "s \n")
 
+##################################### another function xgboost() ###########################################
+
+# parameters to be tuned
+max_depth_values <- seq(3, 9, 3)
+nround_values <- seq(15, 25, 5)
+eta_values <- c(0.0005,0.001,0.01,0.1,0.3)
+colsample_values <- c(0.5,1)
+
+dat_train=dat_train2
+label_train=label_train2
+
+xg_result_cv <- array(dim=c(length(max_depth_values), length(nround_values),length(eta_values),length(colsample_values)))
+K <- 5  # number of CV folds
+for(i in 1:length(max_depth_values)){
+  for(j in 1:length(nround_values)){
+    for(k in 1:length(eta_values)){
+      for(p in 1:length(colsample_values)){
+      cat("i=", i, "\n")
+      cat("j=", j, "\n")
+      cat("k=", k, "\n")
+      cat("p=", p, "\n")
+      xg_result_cv[i,j,k,p] <- xg.cv.function(dat_train, label_train, max_depth_values[i],nround_values[j],eta_values[k],colsample_values[p],K)
+       }
+    }
+  }
+}
+
+save(xg_result_cv, file="/Users/Amyummy/Documents/Rstudio/ads_pro3/xg_err_cvT.RData")
+
+# Choose the best parameter value
+xg_index_best=which(xg_result_cv==min(xg_result_cv),arr.ind = TRUE)
+max_depth_best <- max_depth_values[xg_index_best[1]]
+nround_best <- nround_values[xg_index_best[2]]
+eta_best <-eta_values[xg_index_best[3]]
+colsample_best <-colsample_values[xg_index_best[4]]
+xg_par_best <- list(max_depth=max_depth_best,nround=nround_best,eta=eta_best,colsample=colsample_best)
+
+
+
 
 
 
