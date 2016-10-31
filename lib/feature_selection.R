@@ -59,7 +59,6 @@ random_forest <- function(data, label, n){
   # n: number of features to keep
   
   install.packages("caret", dependencies = c("Depends", "Suggests"))
-  library(ggplot2)
   library(caret)
   install.packages("corrplot")
   library(corrplot)
@@ -100,7 +99,7 @@ random_forest <- function(data, label, n){
   names(df) <- c(allX,"label")
   
   #Train Random Forest
-  rf <- randomForest(as.factor(label)~.,data = df, importance = TRUE,ntree = 500)
+  time <- system.time(rf <- randomForest(as.factor(label)~.,data = df, importance = TRUE,ntree = 500))
   
   #Evaluate variable importance
   imp <- importance(rf, type=1)

@@ -29,7 +29,9 @@ cv.function <- function(data, label, d, n, r, K){
     
     par <- list(depth = d, Ntrees = n, Shrinkage = r)
     fit <- train(train.data, train.label, par)
+    print("fit")
     pred <- test(fit, test.data)  
+    print("test")
     cv.error[i] <- mean(pred != test.label)
   }
   
@@ -130,7 +132,7 @@ xg.cv.function <- function(X.train, y.train, d,n,r,p, K){
   return(mean(cv.error))
 }
 
-########################## cv.function for SGD logistic regression ##########################################
+################# cv.function for SGD logistic regression ##########################################
 
 cvsgd.function <- function(data, label,K){
   # data: the whole dataset
