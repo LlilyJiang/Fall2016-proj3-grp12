@@ -40,11 +40,24 @@ testSVM <- function(fit_train, dat_test){
   return(as.numeric(pred> 0.5))
 }
 
+################################ xg.test() for xgboost ########################################
 
-testxgboost <- function(fit_train, dat_test){
+xg.test <- function(fit_train, dat_test){
   
-  pred <- predict(fit_train, dat_test)
+  ### Fit the classfication model with testing data
   
-  return(as.numeric(pred > 0.5))
+  ### Input: 
+  ###  - the fitted classification model using training data
+  ###  -  processed features from testing images 
+  ### Output: training model specification
+  
+  ### load libraries
+  library("xgboost")
+  
+  # fit_train=xg.train()
+  pred <- predict(fit_train$fit, dat_test)
+  
+  return(as.numeric(pred> 0.5))
 }
+
 
