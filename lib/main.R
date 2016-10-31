@@ -78,26 +78,44 @@ Shrinkage_best <-Shrinkage_values[index_best[3]]
 par_best <- list(depth = depth_best, Ntrees = Ntrees_best, Shrinkage = Shrinkage_best)
 
 
+
 ### svm ###
-kernel_values <- c('linear','radial')
+kernel_values <- c('radial')
 #cost_values <- c(0.01, 0.1, 1, 2.7, 10, 100, 150, 200, 250, 300, 350)
 #gamma_values <- c(0.0001, 0.0005, 0.0007, 0,001, 0.01, 0.09, 0.015, 0.02, 0.025, 0.03, 0.1, 1)
-cost_values <- c(0.1, 1)
-gamma_values <- c(0.0005,0.01)
+cost_values <- c( 50,100,200,500)
+gamma_values <- c( 0.001)
 
-result_cv <- array(dim=c(length(kernel_values), length(gamma_values),length(cost_values)))
+result_cv <- array(dim=c(length(kernel_values),length(cost_values),length(gamma_values)))
 K <- 5  # number of CV folds
 for(i in 1:length(kernel_values)){
-  for(j in 1:length(gamma_values)){
-    for(k in 1:length(cost_values)){
+  for(j in 1:length(cost_values)){
+    for(k in 1:length(gamma_values)){
       cat("i=", i, "\n")
       cat("j=", j, "\n")
       cat("k=", k, "\n")
-      result_cv[i,j,k] <- cvsvm.function(dat_train, label_train, kernel_values[i],gamma_values[j],cost_values[k], K)
+      result_cv[i,j,k] <- cvsvm.function(data_train[,-ncol(data_train)], label_train, kernel_values[i],cost_values[j],gamma_values[k], K)
     }
   }
 }
-c=cvsvm.function(dat_train, label_train, 'radial',1,0.1,K)
+c=cvsvm.function(data_train[,-ncol(data_train)], label_train, 'radial',0.1,0.01,K)
+
+
+
+### logistic regression###
+# conduct CV within the function.Output a plot of error rate versus lambda
+# didn't call function in other files
+library(glmnet)
+log.fit<-cv.glmnet(data_train[,-ncol(data_train)], label_train,family = "binomial", type.measure = "class",nfolds=5)
+plot(log.fit)
+
+### SGD on logistic regression
+library(sgd)
+
+# not tune yet... better than glm
+sgd_cvresult<-cvsgd.function(data_train[,-ncol(data_train)], label_train,5)
+
+
 
 
 
