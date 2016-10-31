@@ -6,11 +6,11 @@ Term: Fall 2016
 
 + Team #
 + Team members
-	+ team member 1
-	+ team member 2
-	+ team member 3
-	+ team member 4
-	+ team member 5
+	+ You, Jiwen jy2725@columbia.edu
+	+ Xie, Yaqing yx2316@columbia.edu
+	+ Cui, Han hc2813@columbia.edu
+	+ Feng, Jingjing jf2961@columbia.edu
+	+ Jiang, Kanghui kj2381@columbia.edu
 + Project summary: In this project, we created a classification engine for images of poodles versus images of fried chickens. 
 	
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
