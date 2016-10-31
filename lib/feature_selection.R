@@ -31,7 +31,7 @@ variance_cut_off <- function(data, cutoff){
 
 # princomp() can only be used with more units than variables
 # use prcomp()
-# !! We can only get 2000 principle components
+
 
 pca <- function(data, n){
   # n: the number of principle components we want to keep
@@ -42,6 +42,7 @@ pca <- function(data, n){
   pr_var=(pca$sdev)^2;
   plot(cumsum(pr_var)/sum(pr_var)*100,ylim=c(0,100),type="b",xlab="component",ylab="c umulative propotion (%)",main="Cum. Scree plot");
   plot(pca)
+  abline(h=80,col="red")
   
   return(pca$x[,1:n])
 }
