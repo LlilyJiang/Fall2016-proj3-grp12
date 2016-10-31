@@ -98,3 +98,31 @@ cvxgboost.function <- function(data, label, d, n, r, K){
   return(mean(cv.error))
 }
 
+############ cv.function for xgboost ##########################################
+
+xg.cv.function <- function(X.train, y.train, d,n,r,p, K){
+  
+  n <- length(y.train)
+  n.fold <- floor(n/K)
+  s <- sample(rep(1:K, c(rep(n.fold, K-1), n-(K-1)*n.fold)))  
+  cv.error <- rep(NA, K)
+  
+  for (i in 1:K){
+    print(i)
+    train.data <- X.train[s != i,]
+    train.label <- y.train[s != i]
+    test.data <- X.train[s == i,]
+    test.label <- y.train[s == i]
+    
+    par <- list(max_depth=d,nround=n,eta=r,colsample=p)
+    fit <- xg.train(train.data, train.label, par)
+    print('trained')
+    pred <- xg.test(fit, test.data)  
+    print('tested')
+    cv.error[i] <- mean(pred != test.label)  
+    
+  }			
+  #return(c(mean(cv.error),sd(cv.error)))
+  return(mean(cv.error))
+}
+
