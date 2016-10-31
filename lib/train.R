@@ -46,6 +46,50 @@ train <- function(dat_train, label_train, par=NULL){
   return(list(fit=fit_gbm, iter=best_iter))
 }
 
+################################ train.ada() for Adaboosting ########################################
+
+train.ada <- function(dat_train, label_train, par=NULL){
+  
+  ### Train a Gradient Boosting Model (GBM) using processed features from training images
+  
+  ### Input: 
+  ###  -  processed features from images 
+  ###  -  class labels for training images
+  ### Output: training model specification
+  
+  ### load libraries
+  library("gbm")
+  
+  ### Train with gradient boosting model
+  if(is.null(par)){
+    ### default parameter values
+    depth <- 6
+    Ntrees <- 1000
+    Shrinkage <- 0.01
+  } else {
+    depth <- par$depth
+    Ntrees <- par$Ntrees
+    Shrinkage <- par$Shrinkage
+  }
+  
+  fit_gbm <- gbm.fit(x=dat_train, y=label_train,
+                     n.trees=Ntrees,
+                     distribution="adaboost",
+                     interaction.depth=depth,
+                     shrinkage=Shrinkage,
+                     bag.fraction = 0.5,
+                     verbose=FALSE)
+  best_iter <- gbm.perf(fit_gbm, method="OOB")
+  # best_iter <- gbm.perf(fit_gbm, 
+  #               plot.it = TRUE, 
+  #               oobag.curve = TRUE, 
+  #               overlay = TRUE, 
+  #               method = c("OOB","test")[1])
+  
+  
+  return(list(fit=fit_gbm, iter=best_iter))
+}
+
 #distribution: a description of the error distribution to be used in the
 #          model. Currently available options are "gaussian" (squared
 #          error), "laplace" (absolute loss), "bernoulli" (logistic
@@ -77,6 +121,7 @@ train <- function(dat_train, label_train, par=NULL){
 #         extracts the optimal number of iterations using cross-validation 
 #         if gbm was called with cv.folds>1
 
+################################ trainSVM() for SVM ########################################
 
 trainSVM <- function(dat_train, label_train, par = NULL){
   
@@ -107,7 +152,8 @@ trainSVM <- function(dat_train, label_train, par = NULL){
   return(fit = fit_svm)
 }
 
-############
+################################ xg.train() for xgboost ########################################
+
 xg.train <- function(dat_train, label_train, par=NULL){
   
   ### Train a Gradient Boosting Model (GBM) using processed features from training images
