@@ -14,7 +14,7 @@
 # use prcomp()
 
 
-pca <- function(data, n){
+pca_select <- function(data, n){
   # n: the number of principle components we want to keep
   
   pca=prcomp(data, center=TRUE, scale=TRUE);
