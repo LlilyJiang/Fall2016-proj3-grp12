@@ -55,8 +55,20 @@ xg.train.new <- function(dat_train, label_train, par=NULL){
   ### load libraries
   library("xgboost")
   
+  par1 = list(
+  eval_metric = "logloss",
+  objective = "binary:logistic",
+  # eta: Analogous to learning rate in GBM (Typical final values to be used: 0.01-0.2)
+  eta = 0.1,
+  max_depth = 6,
+  max_delta_step = 1,
+  subsample = 0.8,
+  scale_pos_weight = 1,
+  min_child_weight = 3
+)
+  
   if(is.null(par)){
-    par = par0
+    par = par1
   } else {
     par = par
   }
