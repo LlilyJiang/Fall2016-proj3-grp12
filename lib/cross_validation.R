@@ -70,40 +70,6 @@ cv.function <- function(data, label, d, n, r, K){
   return(mean(cv.error))
 }
 
-################################ cv.function for xgboost ########################################
-
-cvsvm.function <- function(data, label, k, c, g, K){
-  # data: the whole dataset
-  # label: a column vector with 0 and 1
-  # K: number of folds during the cross validation process
-  # c: cost_values
-  # g: gamma_values
-  # k: kernel_values
-  
-  set.seed(0)
-  library(caret)
-  fold <- createFolds(1:dim(data)[1], K, list=T, returnTrain=F)
-  fold <- as.data.frame(fold)
-  
-  cv.error <- rep(NA, K)
-  
-  for (i in 1:K){
-    test.data <- data[fold[,i],]
-    train.data <- data[-fold[,i],]
-    test.label <- label[fold[,i],]
-    train.label <- label[-fold[,i],]
-    
-    par <- list(kernel = k,cost = c, gamma = g)
-    fit <- trainSVM(train.data, train.label, par)
-    # print('trained')
-    pred <- testSVM(fit, test.data)  
-    # print('tested')
-    cv.error[i] <- mean(pred != test.label)
-  }
-  
-  return(mean(cv.error))
-}
-
 ############################## cv.function for xgboost ##########################################
 
 xg.cv.function <- function(X.train, y.train, d,n,r,p, K){
@@ -163,6 +129,41 @@ cvsgd.function <- function(data, label,K){
   
   return(mean(cv.error))
 }
+
+
+################# cv.function for new xgboost: use the function from xgboost package  ##########################################
+
+
+# Simple cross validated xgboost training function (returning minimum error for grid search)
+# 5 fold
+
+xgbCV <- function (params) {
+  fit <- xgb.cv(
+    data = data.matrix(dat_train), 
+    label = label_train, 
+    param =params, 
+    missing = NA, 
+    nfold = folds, 
+    prediction = FALSE,
+    early.stop.round = 50,
+    maximize = FALSE,
+    nrounds = nrounds
+  )
+  rounds <- nrow(fit)
+  metric = paste('test.',eval,'.mean',sep='')
+  idx <- which.min(fit[,fit[[metric]]]) 
+  val <- fit[idx,][[metric]]
+  res <<- rbind(res,c(idx,val,rounds))
+  colnames(res) <<- c('idx','val','rounds')
+  return(val)
+}
+
+
+
+
+
+
+
 
 
 
