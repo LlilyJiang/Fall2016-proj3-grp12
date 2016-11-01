@@ -1,6 +1,9 @@
-# test functions of models we tried but not used in final
+#####################################################
+### Other classification methods we have tried #####
+#####################################################
+
 # including:
-# Gbm(bourulli), svm, gbm(adaboost)
+# gbm(bornulli), gbm(adboosting), svm, logistic regression 
 
 
 ################################ test() for GBM (distribution = bernoulli) ########################################
@@ -61,3 +64,12 @@ testSVM <- function(fit_train, dat_test){
   
   return(as.numeric(pred> 0.5))
 }
+
+################################ test.logistic() for Logistic Regression ########################################
+
+test.logistic <- function(fit, dat_test){
+  pred <- predict(fit, test.data,type = 'response')  
+  
+  return(as.numeric(pred> 0.5))
+}
+

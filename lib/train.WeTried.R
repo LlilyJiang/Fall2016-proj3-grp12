@@ -1,8 +1,11 @@
-# train functions of models we tried for base model
-# including:
-# gbm(bornulli), svm, gbm(adboosting) 
+#####################################################
+### Other classification methods we have tried #####
+#####################################################
 
-# train function for gbm
+# including:
+# gbm(bornulli), svm, gbm(adboosting), logistic regression 
+
+################################ train.ada() for Adaboosting ########################################
 
 train <- function(dat_train, label_train, par=NULL){
   
@@ -45,6 +48,7 @@ train <- function(dat_train, label_train, par=NULL){
   
   return(list(fit=fit_gbm, iter=best_iter))
 }
+
 
 ################################ train.ada() for Adaboosting ########################################
 
@@ -121,6 +125,7 @@ train.ada <- function(dat_train, label_train, par=NULL){
 #         extracts the optimal number of iterations using cross-validation 
 #         if gbm was called with cv.folds>1
 
+
 ################################ trainSVM() for SVM ########################################
 
 trainSVM <- function(dat_train, label_train, par = NULL){
@@ -151,3 +156,14 @@ trainSVM <- function(dat_train, label_train, par = NULL){
   
   return(fit = fit_svm)
 }
+
+################################ train.logit() for Logistic Regression ########################################
+
+train.logit <- function(dat_train, label_train){
+  library("sgd")
+  
+  fit <- sgd(dat_train, label_train, model='glm', model.control=binomial(link="logit"))
+  
+  return(fit)
+}
+
