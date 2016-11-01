@@ -78,6 +78,8 @@ cvsgd.function <- function(data, label,K){
 
   set.seed(0)
   library(caret)
+  install.packages("sgd")
+  library(sgd)
   fold <- createFolds(1:dim(data)[1], K, list=T, returnTrain=F)
   fold <- as.data.frame(fold)
   
