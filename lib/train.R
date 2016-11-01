@@ -195,4 +195,26 @@ xg.train <- function(dat_train, label_train, par=NULL){
   return(list(fit=fit_xgb))
 }
 
+################################### new train function for xgboost: tune more parameters ################
+xg.train.new <- function(dat_train, label_train, par=NULL){
+  
+  ### load libraries
+  library("xgboost")
+  
+  if(is.null(par)){
+    par = par0
+  } else {
+    par = par
+  }
+  
+  fit_xgb <- xgboost(
+    data = xgb.DMatrix(data.matrix(dat_train),missing=NaN, label = label_train),
+    param = par,
+    nrounds = results[which.min(results[,2]),1],
+    verbose=FALSE
+  )
+  
+  return(list(fit=fit_xgb))
+}
+
 
