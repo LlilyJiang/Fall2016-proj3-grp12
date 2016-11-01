@@ -6,9 +6,7 @@
 
 ########################################## test functions for baseline model ############################################
 
-
-### xg.test() for xgboost ###
-xg.test <- function(fit_train, dat_test){
+xg.test.new <- function(fit_train.new, dat_test){
   
   ### Fit the classfication model with testing data
   
@@ -20,8 +18,8 @@ xg.test <- function(fit_train, dat_test){
   ### load libraries
   library("xgboost")
   
-  # fit_train=xg.train()
-  pred <- predict(fit_train$fit, dat_test)
+  # fit_train.new=xg.train.new()
+  pred <- predict(fit_train.new$fit, dat_test)
   
   return(as.numeric(pred> 0.5))
 }
