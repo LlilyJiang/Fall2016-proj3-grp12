@@ -312,13 +312,14 @@ save(pred, file="./output/base.test.pred.RData")
 
 accu <- function(label_test,pred_test){
   x=label_test-pred
+  n=length(pred)
   k=0
-  for(i in 1:600){
+  for(i in 1:n){
     if(x[i]==0){
       k=k+1
     }else{k=k}
   }
-  accuracy=k/600
+  accuracy=k/n
   return(accuracy)
 }
 
