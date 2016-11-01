@@ -1,8 +1,56 @@
-################## Part2: SIFT feature selection
+################## SIFT feature selection
 # three methods:
 # 1. based on variance(cut off)
 # 2. PCA
 # 3. Random forest to choose important features
+
+# Having tried several times of different feature sets, we decide to use 750 features selected by PCA
+# So we can only run PCA
+
+
+#############################     method2: PCA     #############################
+
+# princomp() can only be used with more units than variables
+# use prcomp()
+
+
+pca <- function(data, n){
+  # n: the number of principle components we want to keep
+  
+  pca=prcomp(data, center=TRUE, scale=TRUE);
+  
+  # Cum.Screeplot.
+  pr_var=(pca$sdev)^2;
+  plot(cumsum(pr_var)/sum(pr_var)*100,ylim=c(0,100),type="b",xlab="component",ylab="c umulative propotion (%)",main="Cum. Scree plot");
+  plot(pca)
+  abline(h=80,col="red")
+  # dim(pca$x[,1:n2])
+  
+  data.m2=cbind(pca$x[,1:n2],label1)
+  # dim(data.m2)
+  save(data.m2, file="./lib/data.m2.RData")
+  
+  # new feature set selected by method1
+  sam2=sample(1:dim(data)[1],0.7*dim(data)[1])
+  train_data=data.m2[sam2,]
+  dat_train=train_data[,1:n]
+  label_train=train_data[,n+1]
+
+  test_data=data.m2[-sam2,]
+  dat_test=test_data[,1:n]
+  label_test=test_data2[,n+1]
+  save(dat_train, file="./lib/dat_train.RData")
+  save(label_train, file="./lib/label_train.RData")
+  save(dat_test, file="./lib/dat_test.RData")
+  save(label_test, file="./lib/label_test.RData")
+ 
+  return(pca$x[,1:n])
+}
+
+
+
+
+
 
 #############################     method1: based on variance     #############################
 
@@ -27,25 +75,8 @@ variance_cut_off <- function(data, cutoff){
   return(data[,getcol])
 }
 
-#############################     method2: PCA     #############################
-
-# princomp() can only be used with more units than variables
-# use prcomp()
 
 
-pca <- function(data, n){
-  # n: the number of principle components we want to keep
-  
-  pca=prcomp(data, center=TRUE, scale=TRUE);
-  
-  # Cum.Screeplot.
-  pr_var=(pca$sdev)^2;
-  plot(cumsum(pr_var)/sum(pr_var)*100,ylim=c(0,100),type="b",xlab="component",ylab="c umulative propotion (%)",main="Cum. Scree plot");
-  plot(pca)
-  abline(h=80,col="red")
-  
-  return(pca$x[,1:n])
-}
 #############################     method3: random forest     ################################
 # since the permutation variable importance is affected by collinearity
 # it's necessary to handle collinearity prior to running random forest for extracting important variables.
