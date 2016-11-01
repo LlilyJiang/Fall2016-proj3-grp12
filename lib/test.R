@@ -83,4 +83,11 @@ xg.test <- function(fit_train, dat_test){
   return(as.numeric(pred> 0.5))
 }
 
-
+################################ xg.test.new() for xgboost ########################################
+xg.test.new <- function(fit_train.new, dat_test){
+  
+  library("xgboost")
+  pred <- predict(fit_train.new$fit, dat_test)
+  
+  return(as.numeric(pred> 0.5))
+}
