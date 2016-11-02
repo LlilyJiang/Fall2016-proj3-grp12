@@ -20,6 +20,8 @@ pca <- function(data, n){
   abline(h=80,col="red")
   # dim(pca$x[,1:n2])
   
+  load <- pca$rotation[,1:n]
+  save(load,file = "sift_pca_loading.rda")
   return(pca$x[,1:n])
 }
 
