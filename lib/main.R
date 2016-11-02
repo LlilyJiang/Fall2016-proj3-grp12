@@ -130,7 +130,7 @@ par0 = params
 # Train model given solution (params) above
 # Because in xgboost(),we set nrounds = results[which.min(results[,2]),1], so the xgboost() and train.r is dependent
 # If you have warnings like: Error in 1:nrounds : argument of length 0
-# Just change nrounds = 1000. in the train.R
+# You can just call another functin xg.train.new.l() in train.R
 
 # tray the xgboost before use it in the train.r
 xgbModel <- xgboost(
@@ -143,14 +143,16 @@ xgbModel <- xgboost(
 
 
 # run xg.train.new and xg.test.new. where we have already soured those files
-#fit_train.new=xg.train.new(dat_train,label_train,par1)
 fit_train.new=xg.train.new(dat_train,label_train,params)
+#fit_train.new.l=xg.train.new.l(dat_train,label_train,par1)
 # system.time(fit_train.new <- xg.train.new(dat_train,label_train,params))
 
-# fit_train.new=xg.train.new(dat_train,label_train,params)
-pred=xg.test.new(fit_train.new, dat_test)
+pred.base=xg.test.new(fit_train.new, dat_test)
+# pred.base.l=xg.test.new.l(fit_train.new.l,dat_test)
+
 set.seed(708)
-save(pred, file="./output/base.test.pred.RData")
+save(pred.base, file="./output/base.test.pred.RData")
+save(pred.base, file="./output/base.test.pred.csv")
 
 
 
