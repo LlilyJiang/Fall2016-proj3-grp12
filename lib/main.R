@@ -128,6 +128,11 @@ print(params)
 par0 = params 
 
 # Train model given solution (params) above
+# Because in xgboost(),we set nrounds = results[which.min(results[,2]),1], so the xgboost() and train.r is dependent
+# If you have warnings like: Error in 1:nrounds : argument of length 0
+# Just change nrounds = 1000. in the train.R
+
+# tray the xgboost before use it in the train.r
 xgbModel <- xgboost(
   data = xgb.DMatrix(data.matrix(dat_train),missing=NaN, label = label_train),
   param = params,
