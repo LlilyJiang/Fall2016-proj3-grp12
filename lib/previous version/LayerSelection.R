@@ -2,8 +2,9 @@
 #### logistic regression ###
 ## 1600 train + cv
 ## 400 test
-### caffeNorm1
 
+
+### caffeNorm1
 
 caffeNorm1.feature <- read.csv("data_norm1_pca.csv")
 caffeNorm1.feature <-as.matrix(caffeNorm1.feature[,-1])
@@ -61,6 +62,32 @@ pred <- predict(sgd_fit, test.data,type = 'response')
 pred <- ifelse(pred <= 0.5, 0, 1) 
 cv.error <- mean(pred != test.label)
 print(cv.error)
+
+
+#### logistic regression ###
+## 2000 train 
+## 2000 test
+
+label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+label_testNew <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+
+# read the 10 files one by one
+train.data <- read.csv("data_prob_pca.csv")
+train.data <-as.matrix(train.data[,-1])
+
+test.data <- read.csv("test_prob_pca.csv")
+test.data <-as.matrix(test.data[,-1])
+
+
+sgd_fit<- sgd(train.data, label_train,model='glm',model.control=binomial(link="logit"))
+
+pred <- predict(sgd_fit, test.data,type = 'response')  
+pred <- ifelse(pred <= 0.5, 0, 1) 
+cv.error <- mean(pred != label_testNew)
+print(cv.error)
+
+
+
 
 
 
