@@ -180,27 +180,6 @@ accu <- function(label_test,pred_test){
 accu(label_test,pred)
 
 
-###################################  Advanced Model :  based on selected CAFFE features ####################################
-
-# data from the result of feature.py with features extracted by Caffe and selected by PCA
-
-# read the selected layer data
-caffe = read.csv("./data/fs8.new.csv")
-caffe = caffe[,-1]
-label2=append(rep(1,1000),rep(0,1000))
-data2=cbind(caffe,label2)
-dim(data2)
-
-sam=sample(1:2000,1600)
-
-train_data2=data2[sam,]
-dat_train=train_data2[,1:1000]
-label_train=train_data2[,1001]
-
-test_data2=data2[-sam,]
-dat_test=test_data2[,1:1000]
-label_test=test_data2[,1001]
-
 
 
 ##################    Advance model:  on selected Caffe features   ################
@@ -212,7 +191,7 @@ library(sgd)
 
 label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
 # read the selected layer data
-data_train <- read.csv("./data/data_fc8_pca.csv")
+data_train <- read.csv("./data/test_fc7_pca.csv")
 data_train <-as.matrix(data_train[,-1])
 
 t<-sample(1:2000,1600)
