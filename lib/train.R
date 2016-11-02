@@ -34,6 +34,8 @@ xg.train.new <- function(dat_train, label_train, par=NULL){
   fit_xgb <- xgboost(
     data = xgb.DMatrix(data.matrix(dat_train),missing=NaN, label = label_train),
     param = par,
+    # for here, nrounds is dependent, we should follow the code step by step
+    # or you can chage the nrounds = 1000
     nrounds = results[which.min(results[,2]),1],
     verbose=FALSE
   )
