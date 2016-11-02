@@ -25,7 +25,7 @@ xg.train <- function(dat_train, label_train, par=NULL){
     max_depth <- 6
     nround <- 25
     eta <- 0.3
-    colsample_bytree <- 1
+    colsample <- 1
   } else {
     max_depth <- par$max_depth
     nround <- par$nround
