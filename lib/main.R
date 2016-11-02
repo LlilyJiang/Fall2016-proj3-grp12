@@ -14,7 +14,7 @@ setwd("./Fall2016-proj3-grp12/lib") # where you put all the R files
 # source all the functions you need
 source("train.R")
 source("test.R")
-source("cross_validation.R")
+
 source("feature_sift.R")
 
 ##################    Base model: use cross validation to tune parameters based on selected SIFT features   ################
@@ -25,8 +25,8 @@ sift=t(sift.feature)
 # dim(sift)
 
 # add lables: 0 for dog and 1 for fried chicken
-source("feature_sift") # use PCA to reduce dimension
-data = pca(data,750)
+# use PCA() in feature_sift.R to reduce dimension
+data = pca(sift,750)
 label1=append(rep(1,1000),rep(0,1000))
 # selected data with labels
 data=cbind(data,label1)
@@ -38,11 +38,11 @@ data=cbind(data,label1)
 
 n2=750 
 sam=sample(1:2000,1600)
-train_data=data[sam2,]
+train_data=data[sam,]
 dat_train=train_data[,1:n2]
 label_train=train_data[,n2+1]
 
-test_data=data[-sam2,]
+test_data=data[-sam,]
 dat_test=test_data[,1:n2]
 label_test=test_data[,n2+1]
 
@@ -69,6 +69,7 @@ params <- list(
 # Table to track performance from each worker node
 res <- data.frame()
 
+library(xgboost)
 # Simple cross validated xgboost training function (returning minimum error for grid search)
 # 5 fold
 xgbCV <- function (params) {
@@ -114,12 +115,15 @@ sol <- gridSearch(
 )
 
 # Combine all model results
+# install.packages("plyr")
+library(plyr)
 comb=clusterEvalQ(cl,res)
 results <- ldply(comb,data.frame)
 stopCluster(cl)
 
 # get and save the best params set.
 params <- c(sol$minlevels,objective = obj, eval_metric = eval)
+# print and save the params
 print(params)
 par0 = params 
 
