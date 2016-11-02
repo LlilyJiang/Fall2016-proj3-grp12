@@ -30,7 +30,10 @@ Please see each subfolder for a README file.
 
 Project Specification:
 
+
 Machine: Mac
+
 R version: 3.2.5
+
 Packages Requirements: xgboost,caret,gbm,NMOF,plyr,sgd (R: all latest version via "install packages")
 		       Caffe,numpy,pandas,matplotlib.pyplot,datetime,sys,os,sklearn (Python)
