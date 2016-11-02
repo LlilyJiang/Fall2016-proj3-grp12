@@ -101,5 +101,90 @@ sgd_cvresult<-cvsgd.function(caffeFc8New.feature, label_train,5)
 #SVM
 c=cvsvm.function(caffeFc7New.feature, label_train, 'radial',100,0.0001,5)
 
+#depth_values <- seq(3, 10, 1)
+depth_values <- c(9)
+Ntrees_values <- c(200,  1000, 2000, 4000)
+Shrinkage_values <- c(0.001, 0.01, 0.1)
+K=5
+
+result_cv <- array(dim=c(length(depth_values), length(Ntrees_values),length(Shrinkage_values)))
+       
+for(i in 1:length(depth_values)){
+  for(j in 1:length(Ntrees_values)){
+    for(k in 1:length(Shrinkage_values)){
+      cat("i=", i, "\n")
+      cat("j=", j, "\n")
+      cat("k=", k, "\n")
+      result_cv[i,j,k] <- cv.function(caffeFc8New.feature, label_train, depth_values[i], Ntrees_values[j], Shrinkage_values[k], K)
+    }
+  }
+}
+
+
+
+
+
+### test with additional 2000 observations
+label_testNew <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+testNorm1.feature <- read.csv("test_norm1_pca.csv")
+testNorm1.feature <-as.matrix(testNorm1.feature[,-1])
+
+caffeNorm1.feature <- read.csv("data_norm1_pca.csv")
+caffeNorm1.feature <-as.matrix(caffeNorm1.feature[,-1])
+
+
+
+##logistic regression
+library(sgd)
+sgd_fit<- sgd(caffeNorm1.feature, label_train,model='glm',model.control=binomial(link="logit"))
+pred <- predict(sgd_fit, testNorm1.feature,type = 'response')  
+pred <- ifelse(pred <= 0.5, 0, 1) 
+cv.error <- mean(pred != label_testNew)
+
+#GBM
+par <- list(depth = 3, Ntrees = 2000, Shrinkage = 0.01)
+fit <- train(caffeNorm1.feature, label_train, par)
+# print('trained')
+pred <- test(fit, testNorm1.feature)  
+# print('tested')
+cv.error<- mean(pred != label_testNew)n 
+
+
+## for fc6
+
+caffeFc6.feature <- read.csv("data_fc6_pca.csv")
+caffeFc6.feature <-as.matrix(caffeFc6.feature[,-1])
+
+testFc6.feature <- read.csv("test_fc6_pca.csv")
+testFc6.feature <-as.matrix(testFc6.feature[,-1])
+label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+label_testNew <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+sgd_fit<- sgd(caffeFc6.feature, label_train,model='glm',model.control=binomial(link="logit"))
+pred <- predict(sgd_fit, testFc6.feature,type = 'response')  
+pred <- ifelse(pred <= 0.5, 0, 1) 
+cv.error <- mean(pred != label_testNew)
+print(cv.error)
+
+## for norm2
+
+label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+label_testNew <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+
+caffeNorm2.feature <- read.csv("data_norm2_pca.csv")
+caffeNorm2.feature <-as.matrix(caffeNorm2.feature[,-1])
+
+testNorm2.feature <- read.csv("test_norm2_pca.csv")
+testNorm2.feature <-as.matrix(testNorm2.feature[,-1])
+
+train.data<-caffeNorm2.feature
+test.data<-testNorm2.feature
+
+sgd_fit<- sgd(train.data, label_train,model='glm',model.control=binomial(link="logit"))
+pred <- predict(sgd_fit, test.data,type = 'response')  
+pred <- ifelse(pred <= 0.5, 0, 1) 
+cv.error <- mean(pred != label_testNew)
+print(cv.error)
+
+
 
 
