@@ -5,7 +5,7 @@
 ### Project 3 Group 12
 
 # Specify directories
-setwd("./Fall2016-proj3-grp12/lib") # where you put all the R files
+setwd("./Fall2016-proj3-grp12/“) # where you put all the R files
 
 # SIFT FEATURE EXTRACTION: use feature_sift.r
 
