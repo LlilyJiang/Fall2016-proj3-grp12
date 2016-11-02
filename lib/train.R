@@ -45,8 +45,10 @@ xg.train <- function(data_train, label_train, par=NULL){
     verbose = TRUE
   )
   
-  return(list(fit=fit_xgb))
+  return(fit_xgb)
 }
+
+fit = xg.train(data_train,label_train)
 
 ###### cross validation procedure for the base line model ######
 
@@ -100,6 +102,8 @@ min_child_weight .optimal<-min_child_weight[index_best[6]]
 
 save(result_cv, file="./output/err_cv_xgboost.RData")
 
+=======
+>>>>>>> origin/master
 
 ################################################    Advanced Model   ########################################################
 

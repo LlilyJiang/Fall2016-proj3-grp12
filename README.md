@@ -37,5 +37,3 @@ R version: 3.2.5
 
 Packages Requirements: xgboost,caret,gbm,NMOF,plyr,sgd (R: all latest version via "install packages")
 		       Caffe,numpy,pandas,matplotlib.pyplot,datetime,sys,os,sklearn (Python)
-
-How to rerun our code: follow the instruction in main.R and run step by step. 
