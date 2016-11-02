@@ -13,7 +13,7 @@ xg.test.new <- function(fit_train.new, dat_test){
   ### Input: 
   ###  - the fitted classification model using training data
   ###  -  processed features from testing images 
-  ### Output: training model specification
+  ### Output: prediction
   
   ### load libraries
   library("xgboost")
@@ -25,3 +25,21 @@ xg.test.new <- function(fit_train.new, dat_test){
 }
 
 ########################################## test functions for advanced model ############################################
+sgd.test <- function(fit_train.new, dat_test){
+  
+  ### Fit the classfication model with testing data
+  
+  ### Input: 
+  ###  - the fitted classification model using training data
+  ###  -  processed features from testing images 
+  ### Output: prediction
+  
+  ### load libraries
+  library("sgd")
+  
+  pred <- predict(fit_train.new, dat_test,type = 'response')  
+  pred <- ifelse(pred <= 0.5, 0, 1) 
+ 
+  
+  return(pred)
+}
