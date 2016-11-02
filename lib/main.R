@@ -25,17 +25,26 @@ sift=t(sift.feature)
 # dim(sift)
 
 # add lables: 0 for dog and 1 for fried chicken
+source("feature_sift") # use PCA to reduce dimension
+data = pca(data,750)
 label1=append(rep(1,1000),rep(0,1000))
-data=cbind(sift,label1)
+# selected data with labels
+data=cbind(data,label1)
+
 # dim(data)
-# sift data with labels
+# selected data with labels
 
-pca_select(data,750)
+# randomly select 1600 images as traing set, remaining is the test set.
 
-# set data
-dat_train=dat_train
-label_train=label_train
+n2=750 
+sam=sample(1:2000,1600)
+train_data=data[sam2,]
+dat_train=train_data[,1:n2]
+label_train=train_data[,n2+1]
 
+test_data=data[-sam2,]
+dat_test=test_data[,1:n2]
+label_test=test_data[,n2+1]
 
 # xgboost task parameters
 nrounds <- 1000
@@ -125,8 +134,6 @@ xgbModel <- xgboost(
 
 
 # run xg.train.new and xg.test.new. where we have already soured those files
-
-
 #fit_train.new=xg.train.new(dat_train,label_train,par1)
 fit_train.new=xg.train.new(dat_train,label_train,params)
 # system.time(fit_train.new <- xg.train.new(dat_train,label_train,params))
@@ -135,6 +142,18 @@ fit_train.new=xg.train.new(dat_train,label_train,params)
 pred=xg.test.new(fit_train.new, dat_test)
 set.seed(708)
 save(pred, file="./output/base.test.pred.RData")
+
+
+
+#######  this part is for new SIFT data. use the trained model to do the prediction ### no need to run this part for training
+# the new image sets must be 2000!
+# newdata = ...
+data.pca.new = as.matrix(newdata)%*%load
+pred.new = xg.test.new(fit_train.new, data.pca.new)
+
+######  end of no need to run this part for training
+
+
 
 # This part is optional: calculate accuracy
 
