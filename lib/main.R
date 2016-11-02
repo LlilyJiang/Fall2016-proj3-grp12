@@ -12,10 +12,10 @@ setwd("./Fall2016-proj3-grp12/lib") # where you put all the R files
 # new xgboost(): whole progress, run it step by step
 
 # source all the functions you need
-source("train.R")
-source("test.R")
+source("./lib/train.r")
+source("./lib/test.r")
 
-source("feature_sift.R")
+source("./lib/feature_sift.R")
 
 ##################    Base model: use cross validation to tune parameters based on selected SIFT features   ################
 
@@ -200,23 +200,34 @@ dat_test=test_data2[,1:1000]
 label_test=test_data2[,1001]
 
 
-### need some modification
 
-### logistic regression###
-# conduct CV within the function.Output a plot of error rate versus lambda
-# didn't call function in other files
-library(glmnet)
-log.fit<-cv.glmnet(data_train[,-ncol(data_train)], label_train,family = "binomial", type.measure = "class",nfolds=5)
-plot(log.fit)
+##################    Advance model:  on selected Caffe features   ################
+# data from the result of feature.py with features extracted by Caffe and selected by PCA
 
-### SGD on logistic regression
+
+## SGD on logistic regression
 library(sgd)
 
-# not tune yet... better than glm
-sgd_cvresult<-cvsgd.function(data_train[,-ncol(data_train)], label_train,5)
+label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+# read the selected layer data
+data_train <- read.csv("./data/data_fc8_pca.csv")
+data_train <-as.matrix(data_train[,-1])
+
+t<-sample(1:2000,1600)
+
+train.data <- data_train[t,]
+test.data <- data_train[-t,]
+train.label <- matrix(label_train[t,])
+test.label <- matrix(label_train[-t,])
 
 
+sgd_fit<- sgd(train.data, train.label,model='glm',model.control=binomial(link="logit"))
+pred <- predict(sgd_fit, test.data,type = 'response')  
+pred <- ifelse(pred <= 0.5, 0, 1) 
 
+#cv.error <- mean(pred != test.label)
+#print(cv.error)
 
+save(pred, file="./output/advance.test.pred.RData")
 
 
