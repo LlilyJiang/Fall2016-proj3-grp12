@@ -98,12 +98,10 @@ max_depth.optimal <- max_depth[index_best[2]]
 max_delta_step.optimal <-max_delta_step[index_best[3]]
 subsample.optimal <- subsample[index_best[4]]
 scale_pos_weight.optimal <-scale_pos_weight[index_best[5]]
-min_child_weight .optimal<-min_child_weight[index_best[6]]
+min_child_weight.optimal<-min_child_weight[index_best[6]]
 
 save(result_cv, file="./output/err_cv_xgboost.RData")
 
-=======
->>>>>>> origin/master
 
 ################################################    Advanced Model   ########################################################
 
