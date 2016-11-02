@@ -196,7 +196,9 @@ accu(label_test,pred)
 ## SGD on logistic regression
 library(sgd)
 
+#label_train should be customized according to the label for the new testing data
 label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+
 # read the selected layer data
 data_train <- read.csv("./data/test_fc7_pca.csv")
 data_train <-as.matrix(data_train[,-1])
