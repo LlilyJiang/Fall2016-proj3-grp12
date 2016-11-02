@@ -18,3 +18,5 @@ pred <- predict(sgd_fit, test.data,type = 'response')
 pred <- ifelse(pred <= 0.5, 0, 1) 
 cv.error <- mean(pred != label_testNew)
 print(cv.error)
+
+save(pred, file="./output/advance.test.pred.RData")
