@@ -43,11 +43,19 @@ xg.train.new <- function(dat_train, label_train, par=NULL){
   return(list(fit=fit_xgb))
 }
 
-################################################    Baseline Model   ########################################################
-
 
 ################################################    Advanced Model   ########################################################
 
+sgd.train <- function(dat_train, label_train){
+  
+  ### load libraries
+  library("sgd")
+  sgd_fit<- sgd(dat_train,label_train,model='glm',model.control=binomial(link="logit"))
+  
+  
+  
+  return(sgd_fit)
+}
 
 
 
