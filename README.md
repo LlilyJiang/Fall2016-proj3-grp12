@@ -4,7 +4,7 @@
 
 Term: Fall 2016
 
-+ Team #
++ Team Group 12
 + Team members
 	+ You, Jiwen jy2725@columbia.edu
 	+ Xie, Yaqing yx2316@columbia.edu
