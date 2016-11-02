@@ -152,8 +152,10 @@ save(pred, file="./output/base.test.pred.RData")
 #######  this part is for new SIFT data. use the trained model to do the prediction ### no need to run this part for training
 # the new image sets must be 2000!
 # newdata = ...
-loading = load("./lib/sift_pca_loading.rda")
-data.pca.new = as.matrix(newdata)%*%loading
+# load the rotation of the training data (name is load)
+load("./lib/sift_pca_loading.rda")
+# dim newdata should be 2000*5000. 
+data.pca.new = as.matrix(newdata)%*%load
 pred.new = xg.test.new(fit_train.new, data.pca.new)
 
 ######  end of no need to run this part for training
