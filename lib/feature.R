@@ -14,15 +14,21 @@ pca <- function(data, n){
   pca=prcomp(data, center=TRUE, scale=TRUE);
   
   # Cum.Screeplot.
-  pr_var=(pca$sdev)^2;
-  plot(cumsum(pr_var)/sum(pr_var)*100,ylim=c(0,100),type="b",xlab="component",ylab="c umulative propotion (%)",main="Cum. Scree plot");
-  plot(pca)
-  abline(h=80,col="red")
+  # pr_var=(pca$sdev)^2;
+  # plot(cumsum(pr_var)/sum(pr_var)*100,ylim=c(0,100),type="b",xlab="component",ylab="c umulative propotion (%)",main="Cum. Scree plot");
+  # plot(pca)
+  # abline(h=80,col="red")
   # dim(pca$x[,1:n2])
   
   load <- pca$rotation[,1:n]
   save(load,file = "sift_pca_loading.rda")
+  
+  # newpca = as.matrix(newdata)*load
+  
   return(pca$x[,1:n])
 }
 
 
+
+# in order to keep the new pcs the same meaning as the training pcs
+# we have to maintain the same loading matrix which will be multipled with new data.
