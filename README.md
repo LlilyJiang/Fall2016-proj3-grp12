@@ -28,6 +28,7 @@ Packages Requirements:
 
 How to run our code:
 + R: Run the code in main.r step by step. 
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
