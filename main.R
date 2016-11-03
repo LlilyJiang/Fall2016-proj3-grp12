@@ -27,6 +27,7 @@ sift=t(sift.feature)
 # add lables: 0 for dog and 1 for fried chicken
 # use PCA() in feature_sift.R to reduce dimension
 data = pca(sift,750)
+###this label should be input by TA
 label1=append(rep(1,1000),rep(0,1000))
 # selected data with labels
 data=cbind(data,label1)
@@ -128,11 +129,6 @@ print(params)
 par0 = params 
 
 # Train model given solution (params) above
-# Because in xgboost(),we set nrounds = results[which.min(results[,2]),1], so the xgboost() and train.r is dependent
-# If you have warnings like: Error in 1:nrounds : argument of length 0
-# Just change nrounds = 1000. in the train.R
-
-# tray the xgboost before use it in the train.r
 xgbModel <- xgboost(
   data = xgb.DMatrix(data.matrix(dat_train),missing=NaN, label = label_train),
   param = params,
@@ -157,10 +153,8 @@ save(pred, file="./output/base.test.pred.RData")
 #######  this part is for new SIFT data. use the trained model to do the prediction ### no need to run this part for training
 # the new image sets must be 2000!
 # newdata = ...
-# load the rotation of the training data (name is load)
-load("./lib/sift_pca_loading.rda")
-# dim newdata should be 2000*5000. 
-data.pca.new = as.matrix(newdata)%*%load
+loading = load("./lib/sift_pca_loading.rda")
+data.pca.new = as.matrix(newdata)%*%loading
 pred.new = xg.test.new(fit_train.new, data.pca.new)
 
 ######  end of no need to run this part for training
@@ -187,6 +181,7 @@ accu(label_test,pred)
 
 
 
+
 ##################    Advance model:  on selected Caffe features   ################
 # data from the result of feature.py with features extracted by Caffe and selected by PCA
 
@@ -194,9 +189,10 @@ accu(label_test,pred)
 ## SGD on logistic regression
 library(sgd)
 
+###this label should be input by TA
 label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
 # read the selected layer data
-data_train <- read.csv("./data/test_fc7_pca.csv")
+data_train <- read.csv("./data/test_conv3_pca.csv")
 data_train <-as.matrix(data_train[,-1])
 
 t<-sample(1:2000,1600)
