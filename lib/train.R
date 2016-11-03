@@ -34,8 +34,6 @@ xg.train <- function(data_train, label_train, par=NULL){
   fit_xgb <- xgboost(
     data = xgb.DMatrix(data.matrix(data_train), missing= NaN, label = label_train),
     param = par,
-    # for here, nrounds is dependent, we should follow the code step by step
-    # or you can change the nrounds = 1000
     nrounds = 1000,
     verbose = TRUE
   )
@@ -58,8 +56,7 @@ sgd.train <- function(dat_train, label_train){
 }
 
 
-### cv.sgd.function for SGD logistic regression ###
-K <- 5
+### cv.sgd.function for SGD logistic regression, for cross validation ###
 
 cv.sgd.function <- function(data, label,K){
   # data: the whole dataset
@@ -68,7 +65,7 @@ cv.sgd.function <- function(data, label,K){
   
   set.seed(0)
   library(caret)
-  install.packages("sgd")
+  #install.packages("sgd")
   library(sgd)
   fold <- createFolds(1:dim(data)[1], K, list=T, returnTrain=F)
   fold <- as.data.frame(fold)
