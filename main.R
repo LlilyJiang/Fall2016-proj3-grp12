@@ -128,7 +128,9 @@ params <- c(sol$minlevels,objective = obj, eval_metric = eval)
 print(params)
 par0 = params 
 
-# Train model given solution (params) above
+# Train model given solution (params) above\\
+
+# just to test , no need to run xgbModel<-...
 xgbModel <- xgboost(
   data = xgb.DMatrix(data.matrix(dat_train),missing=NaN, label = label_train),
   param = params,
@@ -140,32 +142,21 @@ xgbModel <- xgboost(
 
 # run xg.train.new and xg.test.new. where we have already soured those files
 #fit_train.new=xg.train.new(dat_train,label_train,par1)
-fit_train.new=xg.train.new(dat_train,label_train,params)
+fit_train.xg=xg.train(dat_train,label_train,params)
 # system.time(fit_train.new <- xg.train.new(dat_train,label_train,params))
 
 # fit_train.new=xg.train.new(dat_train,label_train,params)
-pred=xg.test.new(fit_train.new, dat_test)
+pred=xg.test(fit_train.xg, dat_test)
 set.seed(708)
 save(pred, file="./output/base.test.pred.RData")
-
-
-
-#######  this part is for new SIFT data. use the trained model to do the prediction ### no need to run this part for training
-# the new image sets must be 2000!
-# newdata = ...
-loading = load("./lib/sift_pca_loading.rda")
-data.pca.new = as.matrix(newdata)%*%loading
-pred.new = xg.test.new(fit_train.new, data.pca.new)
-
-######  end of no need to run this part for training
 
 
 
 # This part is optional: calculate accuracy
 
 accu <- function(label_test,pred_test){
-  x=label_test-pred
-  n=length(pred)
+  x=label_test-pred_test
+  n=length(pred_test)
   k=0
   for(i in 1:n){
     if(x[i]==0){
