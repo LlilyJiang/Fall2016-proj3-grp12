@@ -6,12 +6,6 @@
 
 ########################################## test functions for baseline model ############################################
 
-# load the test data and transform it using the loading matrix we calculated from training data set
-load("/Users/jiwenyou/Desktop/Fall2016-proj3-grp12/lib/sift_pca_loading.rda")
-sift.features_test <- read.csv("~/Downloads/Project3_poodleKFC_test/sift features_test.csv")
-data_test <- as.matrix(t(sift.features_test))
-data_test <- data_test %*% load
-dim(data_test)
 
 xg.test <- function(fit_train, data_test){
   
@@ -30,9 +24,6 @@ xg.test <- function(fit_train, data_test){
   
   return(as.numeric(pred> 0.5))
 }
-
-test_result <- xg.test(fit1, data_test)
-write.csv(test_result, file= "/Users/jiwenyou/Desktop/Fall2016-proj3-grp12/output/base_model_predict.csv")
 
 ########################################## test functions for advanced model ############################################
 
