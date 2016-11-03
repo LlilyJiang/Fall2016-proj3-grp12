@@ -26,12 +26,12 @@ xg.test <- function(fit_train, data_test){
   library("xgboost")
   
   # fit_train.new=xg.train.new()
-  pred <- predict(fit, as.matrix(data_test))
+  pred <- predict(fit_train, as.matrix(data_test))
   
   return(as.numeric(pred> 0.5))
 }
 
-test_result <- xg.test(fit, data_test)
+test_result <- xg.test(fit1, data_test)
 write.csv(test_result, file= "/Users/jiwenyou/Desktop/Fall2016-proj3-grp12/output/base_model_predict.csv")
 
 ########################################## test functions for advanced model ############################################

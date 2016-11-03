@@ -4,12 +4,16 @@
 
 ### Project 3 Group 12
 
+setwd("/Users/jiwenyou/Desktop")
+
 sift_features <- read.csv("~/Desktop/sift_features.csv")
 data_train <- t(sift_features)
 label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
 
 ################################################    Baseline Model   ########################################################
-nround = 500
+nround = 25
+source("Fall2016-proj3-grp12/lib/feature_sift.r")
+data_train <- pca(data_train, 750)
 
 xg.train <- function(data_train, label_train, par=NULL){
   
@@ -22,12 +26,12 @@ xg.train <- function(data_train, label_train, par=NULL){
   eval_metric = "logloss",
   objective = "binary:logistic",
   # eta: Analogous to learning rate in GBM (Typical final values to be used: 0.01-0.2)
-  eta = 0.1,
-  max_depth = 6,
+  eta = 0.01,
+  max_depth = 8,
   max_delta_step = 1,
   subsample = 0.8,
   scale_pos_weight = 1,
-  min_child_weight = 3
+  min_child_weight = 6
   )
   
   if(is.null(par)){
@@ -48,7 +52,7 @@ xg.train <- function(data_train, label_train, par=NULL){
   return(fit_xgb)
 }
 
-fit = xg.train(data_train,label_train)
+fit1 = xg.train(data_train,label_train)
 
 ###### cross validation procedure for the base line model ######
 
