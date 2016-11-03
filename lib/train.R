@@ -4,11 +4,7 @@
 
 ### Project 3 Group 12
 
-setwd("/Users/jiwenyou/Desktop")
-
-sift_features <- read.csv("~/Desktop/sift_features.csv")
-data_train <- t(sift_features)
-label_train <- matrix(c(rep(1,1000),rep(0,1000)), ncol = 1)
+setwd("~Desktop") ## PLEASE set this directory containing 'Fall2016-proj3-grp12/' 
 
 ################################################    Baseline Model   ########################################################
 nround = 25
