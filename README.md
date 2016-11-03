@@ -26,6 +26,8 @@ Packages Requirements:
 + Python: Caffe, numpy, pandas, matplotlib, datetime, sys, os, sklearn
 	+ For Caffe installation: http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/
 
+How to run our code:
++ R: Run the code in main.r step by step. 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
