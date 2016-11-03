@@ -24,7 +24,7 @@ R version: 3.2.5
 Packages Requirements: 
 + R: xgboost, caret, gbm, NMOF, plyr, sgd (all latest version via "install packages")
 + Python: Caffe, numpy, pandas, matplotlib, datetime, sys, os, sklearn
-
+	+ For Caffe installation: http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
