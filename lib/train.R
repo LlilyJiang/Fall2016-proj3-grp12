@@ -8,9 +8,19 @@ setwd("~Desktop") ## PLEASE set this directory containing 'Fall2016-proj3-grp12/
 
 ################################################    Baseline Model   ########################################################
 nround = 25
+
+# Load training data
+sift.feature <- read.csv("sift_features.csv")
+data_train <- t(sift.feature)
+
+# Use PCA to reduce the dimension
 source("Fall2016-proj3-grp12/lib/feature_sift.r")
 data_train <- pca(data_train, 750)
 
+# Import the class label
+label_train <- matrix(c(rep(1,1000),rep(0,1000)),ncol = 1)
+
+# Baseline Model
 xg.train <- function(data_train, label_train, par=NULL){
   
   ### load libraries
